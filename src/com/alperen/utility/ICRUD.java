@@ -1,5 +1,7 @@
-package com.alperen.refactored.utility;
+package com.alperen.utility;
 
+
+import com.alperen.entities.BaseEntity;
 
 import java.util.List;
 
