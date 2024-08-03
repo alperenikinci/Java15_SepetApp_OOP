@@ -1,0 +1,75 @@
+package com.alperen.entities;
+
+import com.alperen.databases.SepetDB;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class Sepet extends BaseEntity{
+    private static int sepetCount;
+    private int kullaniciId;
+    private double sepetTutari;
+    private boolean satildiMi;
+    private List<Urun> urunList = new ArrayList<>();
+
+    {
+        this.id = ++sepetCount;
+        this.satildiMi = false;
+        this.kullaniciId = -1;
+    }
+
+    public Sepet(SepetDB sepetDB) {
+        sepetDB.save(this);
+    }
+
+    public static int getSepetCount() {
+        return sepetCount;
+    }
+
+    public static void setSepetCount(int sepetCount) {
+        Sepet.sepetCount = sepetCount;
+    }
+
+    public int getKullaniciId() {
+        return kullaniciId;
+    }
+
+    public void setKullaniciId(int kullaniciId) {
+        this.kullaniciId = kullaniciId;
+    }
+
+    public double getSepetTutari() {
+        return sepetTutari;
+    }
+
+    public void setSepetTutari(double sepetTutari) {
+        this.sepetTutari = sepetTutari;
+    }
+
+    public boolean isSatildiMi() {
+        return satildiMi;
+    }
+
+    public void setSatildiMi(boolean satildiMi) {
+        this.satildiMi = satildiMi;
+    }
+
+    public List<Urun> getUrunList() {
+        return urunList;
+    }
+
+    public void setUrunList(List<Urun> urunList) {
+        this.urunList = urunList;
+    }
+
+    @Override
+    public String toString() {
+        return "Sepet{" +
+                "kullaniciId=" + kullaniciId +
+                ", sepetTutari=" + sepetTutari +
+                ", satildiMi=" + satildiMi +
+                ", urunList=" + urunList +
+                ", id=" + id +
+                '}';
+    }
+}

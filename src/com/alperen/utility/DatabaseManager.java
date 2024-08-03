@@ -1,12 +1,12 @@
-package com.alperen.refactored.utility;
+package com.alperen.utility;
 
-import uygulamalar.kullanici_kayit_sistemi.refactored.entities.BaseEntity;
+
+import com.alperen.entities.BaseEntity;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class DatabaseManager<T extends BaseEntity> implements ICRUD<T> {
-
     protected ArrayList<T> veriListesi = new ArrayList<>();
 
     @Override
@@ -40,9 +40,9 @@ public class DatabaseManager<T extends BaseEntity> implements ICRUD<T> {
 
     @Override
     public T findByID(int id) {
-        for (BaseEntity entity : veriListesi ){
+        for (T entity : veriListesi ){
             if(entity.getId() == id){
-                return (T) entity;
+                return entity;
             }
         }
         return null;

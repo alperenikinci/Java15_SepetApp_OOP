@@ -1,9 +1,11 @@
-package com.alperen.refactored.entities;
+package com.alperen.entities;
+
+import com.alperen.databases.KullaniciDB;
 
 import java.time.LocalDate;
 
 public class Kullanici extends BaseEntity {
-    private static int kullaniciCount = 0;
+    private static int kullaniciCount;
     private String isim;
     private String soyisim;
     private String email;
@@ -11,15 +13,22 @@ public class Kullanici extends BaseEntity {
     private String sifre;
     private String kullaniciAdi;
     private String tcKimlik;
-    private LocalDate kayitTarihi;
     private LocalDate dogumTarihi;
 
 
-
-    public Kullanici(){
-        this.kullaniciCount++;
-        this.id = kullaniciCount;
-        this.kayitTarihi = LocalDate.now();
+    //init block
+    {
+        this.id = ++kullaniciCount;
+        this.isim = "";
+        this.soyisim = "";
+        this.email = "";
+        this.telNo = "";
+        this.sifre = "";
+        this.kullaniciAdi = "";
+        this.tcKimlik = "";
+    }
+    public Kullanici(KullaniciDB kullaniciDB){
+        kullaniciDB.save(this);
     }
 
     public void setIsim(String isim) {
@@ -86,9 +95,7 @@ public class Kullanici extends BaseEntity {
         return tcKimlik;
     }
 
-    public LocalDate getKayitTarihi() {
-        return kayitTarihi;
-    }
+
 
     public LocalDate getDogumTarihi() {
         return dogumTarihi;
@@ -105,7 +112,7 @@ public class Kullanici extends BaseEntity {
                 ", sifre='" + sifre + '\'' +
                 ", kullaniciAdi='" + kullaniciAdi + '\'' +
                 ", tcKimlik='" + tcKimlik + '\'' +
-                ", kayitTarihi=" + kayitTarihi +
+                ", kayitTarihi=" + this.getCreateDate() +
                 ", dogumTarihi=" + dogumTarihi +
                 '}';
     }
