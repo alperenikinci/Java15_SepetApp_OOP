@@ -17,4 +17,5 @@ public class BaseEntity {
     public int getId() {
         return id;
     }
+
 }

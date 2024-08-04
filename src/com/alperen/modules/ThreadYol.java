@@ -1,24 +1,33 @@
 package com.alperen.modules;
 
+
 import com.alperen.databases.KullaniciDB;
 import com.alperen.databases.SepetDB;
 import com.alperen.databases.SiparisDB;
 import com.alperen.databases.UrunDB;
 import com.alperen.entities.Kullanici;
+import com.alperen.entities.Sepet;
+import com.alperen.utility.DataInitializer;
+
+import java.util.Locale;
 
 public class ThreadYol {
     public static void main(String[] args) {
-        KullaniciDB kullaniciDB = new KullaniciDB();
-        SiparisDB siparisDB = new SiparisDB();
-        UrunDB urunDB = new UrunDB();
-        SepetDB sepetDB = new SepetDB();
-
-        SepetModule sepetModule = new SepetModule(kullaniciDB,siparisDB,urunDB,sepetDB);
-        KullaniciModule kullaniciModule = new KullaniciModule(kullaniciDB,siparisDB,urunDB,sepetDB);
-        Kullanici kullanici = kullaniciModule.girisYap();
-
-        SepetModule.sepetOlustur();
-        SepetModule.sepetiKullaniciyaAta(kullanici);
-        System.out.println(sepetDB.findByID(1));
+        Locale.setDefault(Locale.UK);
+        DataInitializer.generateAllData();
+        DataInitializer.kullaniciDB.findAll().forEach(System.out::println);
+        DataInitializer.urunDB.findAll().forEach(System.out::println);
+        startApplication();
     }
+
+    public static void startApplication(){
+        Kullanici kullanici = null;
+//        Sepet sepet = null;
+        int secim  = 0;
+        do {
+            secim = SepetModule.sepetMainMenu(kullanici);
+        } while (secim!=0);
+    }
+
+
 }

@@ -3,7 +3,7 @@ package com.alperen.entities;
 import com.alperen.databases.UrunDB;
 import com.alperen.utility.enums.EKategori;
 
-public class Urun extends BaseEntity{
+public class Urun extends BaseEntity {
     private static int urunCount;
     private String name;
     private Double fiyat;
@@ -17,6 +17,7 @@ public class Urun extends BaseEntity{
         this.fiyat = 0.0;
         this.aciklama = "Aciklama giriniz...";
     }
+
     public Urun(UrunDB urunDB) {
         urunDB.save(this);
     }
@@ -69,10 +70,33 @@ public class Urun extends BaseEntity{
         this.aciklama = aciklama;
     }
 
+    public String ozetBilgi() {
+        return "Urun{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", fiyat=" + fiyat +
+                ", kategori=" + kategori +
+                '}';
+    }
+
+    public String detayliBilgi() {
+        return "Urun{" +
+                "id=" + id +
+                ", kategori=" + kategori +
+                ", name='" + name + '\'' +
+                ", fiyat=" + fiyat +
+                ", aciklama='" + aciklama + '\'' +
+                '}';
+    }
+
     @Override
     public String toString() {
         return "Urun{" +
                 "name='" + name + '\'' +
+                ", fiyat=" + fiyat +
+                ", adet=" + adet +
+                ", kategori=" + kategori +
+                ", aciklama='" + aciklama + '\'' +
                 ", id=" + id +
                 '}';
     }

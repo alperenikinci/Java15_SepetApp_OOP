@@ -13,14 +13,17 @@ public class Sepet extends BaseEntity{
     private List<Urun> urunList = new ArrayList<>();
 
     {
-        this.id = ++sepetCount;
         this.satildiMi = false;
         this.kullaniciId = -1;
     }
 
     public Sepet(SepetDB sepetDB) {
+        this.id = ++sepetCount;
         sepetDB.save(this);
     }
+    public Sepet(){
+    }
+
 
     public static int getSepetCount() {
         return sepetCount;
