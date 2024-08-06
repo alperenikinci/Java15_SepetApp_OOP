@@ -3,6 +3,8 @@ package com.alperen.entities;
 import com.alperen.databases.UrunDB;
 import com.alperen.utility.enums.EKategori;
 
+import java.text.DecimalFormat;
+
 public class Urun extends BaseEntity {
     private static int urunCount;
     private String name;
@@ -43,7 +45,9 @@ public class Urun extends BaseEntity {
     }
 
     public void setFiyat(Double fiyat) {
-        this.fiyat = fiyat;
+        DecimalFormat df = new DecimalFormat("#.##");
+        String formattedFiyat = df.format(fiyat);
+        this.fiyat =Double.parseDouble(formattedFiyat);
     }
 
     public int getAdet() {
@@ -77,6 +81,13 @@ public class Urun extends BaseEntity {
                 ", fiyat=" + fiyat +
                 ", kategori=" + kategori +
                 '}';
+    }
+    public String sepetBilgi(){
+        return name +
+                ", id=" + id +
+                ", birim fiyat=" + fiyat +
+                ", adet="+ adet +
+                ", toplam fiyat= " + adet*fiyat;
     }
 
     public String detayliBilgi() {

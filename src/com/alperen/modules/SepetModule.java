@@ -21,112 +21,80 @@ public class SepetModule {
     private static final Scanner scanner = new Scanner(System.in);
 
 
-    // Menu Informations
-    public static int sepetMainMenu(Kullanici kullanici) {
-        Sepet kullanicisizSepet = new Sepet();
-        Sepet sepet;
+    public static int sepetMainMenu(Sepet sepet, Kullanici kullanici) {
         System.out.println("#### THREADYOL ####");
         System.out.println("1- Urunleri Incele.");
         System.out.println("2- Urun Detaylarini Goruntule");
-//        System.out.println("3- Sepete Urun Ekle");
         System.out.println("3- Sepeti Goruntule");
         if (kullanici == null) {
-            System.out.println("9- Giriş Yap");
+            System.out.println("9- Giris Yap");
+        } else {
+            System.out.println("9- Oturumu Sonlandir");
         }
         System.out.println("0- Cikis");
         System.out.print("Seciminiz : ");
         int secim = scanner.nextInt();
         scanner.nextLine();
-        if(kullanici== null){
-           kullanicisizSepet = sepetMainMenuFunctions(secim, kullanici,kullanicisizSepet);
-        } else {
-            sepet = new Sepet(sepetDB);
-            sepet.setUrunList(kullanicisizSepet.getUrunList());
-            sepet.setKullaniciId(kullanici.getId());
-            sepetDB.update(sepet);
-            System.out.println(sepet);
-            sepetMainMenuFunctions(secim, kullanici,sepet);
-        }
+        sepetMainMenuFunctions(secim, kullanici, sepet);
+
         return secim;
     }
 
-    // Case Functions
-    public static Sepet sepetMainMenuFunctions(int secim, Kullanici kullanici,Sepet sepet) {
-        if (kullanici != null) {
-            switch (secim) {
-                case 1: {
-                    urunleriIncele();
-                    break;
-                }
-                case 2: {
-                    Urun urun = urunDetaylariniGoruntule();
-                    sepet = sepeteUrunEkle(urun,sepet);
-                    break;
-                }
-                case 3: {
-                    sepetiGoruntule(sepet);
-                    break;
-                }
-                case 0: {
-                    System.out.println("Uygulamadan cikis yapiliyor...");
-                    break;
-                }
-                default: {
-                    System.out.println("Lutfen gecerli bir secim yapiniz...");
-                    break;
-                }
+    public static Sepet sepetMainMenuFunctions(int secim, Kullanici kullanici, Sepet sepet) {
+        switch (secim) {
+            case 1: {
+                urunleriIncele();
+                break;
             }
-        } else {
-            switch (secim) {
-                case 1: {
-                    urunleriIncele();
-                    break;
+            case 2: {
+                Urun urun = urunDetaylariniGoruntule();
+                sepeteUrunEkle(urun, sepet);
+                break;
+            }
+            case 3: {
+                sepetiGoruntule(sepet);
+                break;
+            }
+            case 9: {
+                if (kullanici == null) {
+                    System.out.println("Giris menusune yonlendiriliyorsunuz...");
+                } else {
+                    System.out.println("Oturumunuz sonlandirildi. Ana menuye yonlendiriliyorsunuz.");
                 }
-                case 2: {
-                    Urun urun = urunDetaylariniGoruntule();
-                    sepet = sepeteUrunEkle(urun,sepet);
-                    break;
-                }
-                case 3: {
-                    sepetiGoruntule(sepet);
-                    break;
-                }
-                case 9: {
-                    sepetMainMenu(KullaniciModule.girisMenu());
-                    break;
-                }
-                case 0: {
-                    System.out.println("Uygulamadan cikis yapiliyor...");
-                    break;
-                }
-                default: {
-                    System.out.println("Lutfen gecerli bir secim yapiniz...");
-                    break;
-                }
+                break;
+            }
+            case 0: {
+                System.out.println("Uygulamadan cikis yapiliyor...");
+                break;
+            }
+            default: {
+                System.out.println("Lutfen gecerli bir secim yapiniz...");
+                break;
             }
         }
+
         return sepet;
     }
 
     private static void sepetiGoruntule(Sepet sepet) {
-        System.out.println(sepet);
+        sepet.sepetiGoruntule();
     }
 
     private static Urun urunDetaylariniGoruntule() {
         System.out.print("Lutfen incelemek istediginiz urunun numarasini giriniz : ");
         Urun urun = urunDB.findByID(scanner.nextInt());
-        System.out.println("\n"+urun.detayliBilgi());
+        System.out.println("\n" + urun.detayliBilgi());
         scanner.nextLine();
         return urun;
     }
 
-    private static Sepet sepeteUrunEkle(Urun urun,Sepet sepet) {
+    private static Sepet sepeteUrunEkle(Urun urun, Sepet sepet) {
         System.out.print("Urun Sepete eklensin mi? (E/H) : ");
         String secim = scanner.nextLine();
         secim = secim.toUpperCase();
-        switch (secim){
+        switch (secim) {
             case "E": {
-                sepet.getUrunList().add(urun);
+                sepet.sepeteUrunEkle(urun);
                 break;
             }
             case "H": {
@@ -140,6 +108,9 @@ public class SepetModule {
 
         return sepet;
     }
+    public static Sepet findActiveSepetByUserId(int id){
+        return sepetDB.findActiveSepetByUserId(id);
+    }
 
     private static void urunleriIncele() {
 //       for (Urun urun: urunDB.findAll()){
@@ -148,5 +119,9 @@ public class SepetModule {
         urunDB.findAll().forEach(u -> {
             System.out.println(u.ozetBilgi());
         });
+    }
+
+    public static boolean isUserHasSepet(Kullanici kullanici) {
+        return sepetDB.isUserHasSepet(kullanici);
     }
 }
