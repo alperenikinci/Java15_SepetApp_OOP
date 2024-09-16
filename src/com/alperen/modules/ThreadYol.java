@@ -49,6 +49,7 @@ public class ThreadYol {
         } else if (secim == 9 && kullanici != null) {
             sepet = new Sepet();
             kullanici = null;
+
         }
     }
 }
